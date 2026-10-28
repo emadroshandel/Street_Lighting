@@ -1,0 +1,3 @@
+numpy>=1.22
+# optional: a native desktop window instead of the browser
+# pywebview>=4.0

@@ -4,6 +4,9 @@ Road and street lighting design to **EN 13201** (with CIE 140) and **ANSI/IESNA 
 luminaire's photometric file to pole height and spacing along a real route with bends, hills and
 trees, with contours, cabling, columns, energy figures, CAD drawings and a bilingual report.
 
+**▶ Open the online app: [emadroshandel.github.io/Street_Lighting](https://emadroshandel.github.io/Street_Lighting/)**
+— nothing to install. The first visit downloads the Python engine (about 10 MB); after that it is cached.
+
 The same application runs **on your computer** (desktop window or browser, fully offline) and
 **online** from GitHub Pages, where the identical Python engine runs inside the browser.
 
@@ -52,7 +55,7 @@ python3 desktop.py          # or: python3 server.py
 
 After the repository is pushed to GitHub with Pages enabled (*Settings → Pages → Source:
 GitHub Actions*), the workflow in `.github/workflows/pages.yml` runs the tests and publishes the
-site. Open `https://<user>.github.io/Street_Lighting/`. The first visit downloads Python
+site at https://emadroshandel.github.io/Street_Lighting/. The first visit downloads Python
 (Pyodide, about 10 MB) and is then cached.
 
 ### 2.4 Help on every input

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Street Lighting — road lighting design</title>
+<meta name="description" content="Design street lighting to EN 13201 / IES RP-8-00: luminaire data, road and route topology, pole height and spacing, contours, cabling, columns and a full report.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600&family=Vazirmatn:wght@400;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101a2b'/%3E%3Cpath d='M9 28V8q0-3 3-3h9' stroke='%23c9d1d6' stroke-width='2.4' fill='none'/%3E%3Crect x='17' y='4' width='9' height='3.5' rx='1' fill='%23f2c230'/%3E%3Cpath d='M18 8l-5 16h18l-5-16z' fill='%23f2c230' opacity='.35'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/", "d3": "./vendor/d3-sl.min.js" } }
+</script>
+</head>
+<body>
+<a class="skip" href="#panel">Skip to the design inputs</a>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 29V8q0-3 3-3h9" stroke="#c9d1d6" stroke-width="2.4" fill="none"/><rect x="17" y="4" width="9" height="3.5" rx="1" fill="#f2c230"/><path d="M18 8l-5 16h18l-5-16z" fill="#f2c230" opacity=".35"/></svg>
+    <div><b>Street Lighting</b><span id="engineMode">starting…</span></div>
+  </div>
+  <input id="projName" class="projname" aria-label="Project name" value="New project">
+  <nav class="steps" id="steps" aria-label="Design steps"></nav>
+  <div class="topactions">
+    <button class="ghost" id="btnHelp" title="Show every explanation under its field">Explain all</button>
+    <button class="ghost" id="btnOpen" title="Open a saved project (.json)">Open</button>
+    <button class="ghost" id="btnSave" title="Save the project as a .json file">Save</button>
+    <input type="file" id="fileOpen" accept=".json" hidden>
+  </div>
+</header>
+
+<main class="work">
+  <section class="panel" id="panel" aria-label="Design inputs" tabindex="-1"></section>
+  <section class="viewer" aria-label="Drawings and 3D view">
+    <div class="vtabs" id="vtabs" role="tablist" aria-label="What the viewer shows">
+      <button role="tab" id="tab-3d" aria-controls="v3d" data-v="3d" class="on">3D street</button>
+      <button role="tab" id="tab-xsec" aria-controls="vxsec" data-v="xsec">Cross-section</button>
+      <button role="tab" id="tab-plan" aria-controls="vplan" data-v="plan">Contours</button>
+      <button role="tab" id="tab-route" aria-controls="vroute" data-v="route">Route plan</button>
+      <button role="tab" id="tab-profile" aria-controls="vprofile" data-v="profile">Profile</button>
+      <button role="tab" id="tab-diagram" aria-controls="vdiagram" data-v="diagram">Diagrams</button>
+      <span class="grow"></span>
+      <div class="seg" id="modeSeg" role="group" aria-label="How the street is shown" title="How the street is shown">
+        <button data-m="day">Day</button><button data-m="night" class="on">Night</button><button data-m="false">False colour</button>
+      </div>
+      <div class="seg" id="qtySeg" role="group" aria-label="Quantity shown" title="Quantity shown">
+        <button data-q="L" class="on">Luminance</button><button data-q="E">Illuminance</button>
+      </div>
+    </div>
+    <div class="vbody">
+      <div id="v3d" class="vpane on" role="tabpanel" aria-labelledby="tab-3d">
+        <div class="v3dtools">
+          <button data-cam="bird">Overview</button><button data-cam="whole">Whole</button><button data-cam="driver">Driver's eye</button>
+          <button data-cam="side">Side</button><button data-cam="top">Top</button>
+          <label class="chk"><input type="checkbox" id="cones"> light cones</label>
+          <button id="shot" title="Save a picture of the view">Picture</button>
+        </div>
+        <div id="legend3d" class="legend"></div>
+        <div id="hint3d" class="hint" aria-live="polite"></div>
+      </div>
+      <div id="vxsec" class="vpane draw" role="tabpanel" aria-labelledby="tab-xsec" tabindex="0"></div>
+      <div id="vplan" class="vpane draw" role="tabpanel" aria-labelledby="tab-plan" tabindex="0"></div>
+      <div id="vroute" class="vpane draw" role="tabpanel" aria-labelledby="tab-route" tabindex="0"></div>
+      <div id="vprofile" class="vpane draw" role="tabpanel" aria-labelledby="tab-profile" tabindex="0"></div>
+      <div id="vdiagram" class="vpane draw" role="tabpanel" aria-labelledby="tab-diagram" tabindex="0"></div>
+    </div>
+    <div class="busy" id="busy" hidden><div class="bulb"></div><p id="busyMsg">Working…</p><div class="bar"><i id="busyBar"></i></div></div>
+  </section>
+</main>
+<div id="toasts" class="toasts"></div>
+<div id="announce" class="sr-only" role="status" aria-live="polite"></div>
+<dialog id="dlg" aria-labelledby="dlgTitle"><form method="dialog" id="dlgForm"></form></dialog>
+<div class="boot" id="boot"><div><div class="bulb big"></div><h1>Street Lighting</h1><p id="bootMsg">Starting the calculation engine…</p><div class="bar"><i id="bootBar"></i></div></div></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

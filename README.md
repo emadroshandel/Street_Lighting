@@ -216,8 +216,8 @@ python -m streetlight.benchmark path/to/957_TC_4-15_Test_Data.zip        # EULUM
 python -m streetlight.benchmark path/to/957_TC_4-15_Test_Data.zip ies    # IES files
 ```
 
-and the unit tests run the benchmark too when the zip is in `References/Ref2ndCheck/` or named by
-the environment variable `CIE140_TEST_DATA`. Result (both file formats give the same values):
+and the unit tests also run the benchmark when the environment variable `CIE140_TEST_DATA` names the
+zip (otherwise that test is skipped). Result (both file formats give the same values):
 
 | | Situations 3–7 (H = 8–18 m) | Situations 1–2 (H = 4 m) |
 |---|---|---|
